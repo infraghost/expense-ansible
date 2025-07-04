@@ -28,6 +28,13 @@
       ansible.builtin.debug:
         msg: "MySQL service is running: {{ mysql_status.stdout }}"
 
+    - name: Install python mysql dependencies
+      ansible.builtin.pip:
+        name:
+          - PyMySQL
+          - cryptography
+        executable: pp39 # Use the specific Python executable if needed
+
     # Check if already mysql password is setup or not
     - name: Check DB Connection
       community.mysql.mysql_info:
@@ -41,3 +48,7 @@
     - name: Print Output
       ansible.builtin.debug:
         msg: "MySQL connection output: {{ mysql_connection_output }}"
+
+    - name: Set MySQL root password if not set
+      ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ mysql_root_password }}"
+      when: mysql_connection_output.failed is True
