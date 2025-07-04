@@ -1,0 +1,43 @@
+- name: Configure DB Server
+  hosts: db
+  become: yes
+  vars:
+    mysql_login_host: "localhost" # MySQL login host, can be changed if needed
+  vars_prompt:
+    - name: mysql_root_password
+      prompt: "Enter MySQL root password"
+      private: yes # Hide input for security
+  tasks:
+    - name: Install MySql Server
+      ansible.builtin.dnf:
+        name: mysql-server
+        state: latest # Ensure the latest version is installed
+
+    - name: Start MySql Service
+      ansible.builtin.systemd:
+        name: mysqld
+        state: started
+        enabled: yes # Ensure the service starts on boot
+
+    - name: Ensure MySQL is running
+      ansible.builtin.command: systemctl status mysqld
+      register: mysql_status
+      changed_when: false
+
+    - name: Print MySQL status
+      ansible.builtin.debug:
+        msg: "MySQL service is running: {{ mysql_status.stdout }}"
+
+    # Check if already mysql password is setup or not
+    - name: Check DB Connection
+      community.mysql.mysql_info:
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        login_host: { { mysql_login_host } }
+        filter: version
+      ignore_errors: yes
+      register: mysql_connection_output
+
+    - name: Print Output
+      ansible.builtin.debug:
+        msg: "MySQL connection output: {{ mysql_connection_output }}"
