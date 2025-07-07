@@ -43,7 +43,7 @@
   
   - name: Copy Backend Service
     ansible.builtin.copy:
-      scr: backend.service
+      src: backend.service
       dest: /etc/systemd/system/backend.service
   
   - name: Install Python MySQL Dependencies
