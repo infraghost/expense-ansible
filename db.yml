@@ -2,7 +2,7 @@
   hosts: db
   become: yes
   vars:
-    mysql_login_host: "localhost" # MySQL login host, can be changed if needed
+    mysql_login_host: "54.82.230.67" # MySQL login host, can be changed if needed
   vars_prompt:
     - name: mysql_root_password
       prompt: "Enter MySQL root password"
@@ -40,7 +40,7 @@
       community.mysql.mysql_info:
         login_user: root
         login_password: "{{ mysql_root_password }}"
-        login_host: {{ mysql_login_host }}
+        login_host: "{{ mysql_login_host }}"
         filter: version
       ignore_errors: yes
       register: mysql_connection_output
