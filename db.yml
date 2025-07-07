@@ -33,7 +33,7 @@
         name:
           - PyMySQL
           - cryptography
-        executable: pp39 # Use the specific Python executable if needed
+        executable: pip3.9 # Use the specific Python executable if needed
 
     # Check if already mysql password is setup or not
     - name: Check DB Connection
