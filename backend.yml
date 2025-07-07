@@ -32,7 +32,7 @@
   
   - name: UnZip
     ansible.builtin.unarchive:
-    source: /tmp/backend.zip #bydefault checks in ansible server
+    src: /tmp/backend.zip #bydefault checks in ansible server
     dest: /app
     remote_src: yes
   
