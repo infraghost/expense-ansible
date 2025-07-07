@@ -34,6 +34,12 @@
       src: expense.conf
       dest: /etc/nginx/default.d/expense.conf
 
+  - name: Validate Nginx configuration
+    ansible.builtin.command: nginx -t
+    register: nginx_check
+    changed_when: false
+    failed_when: nginx_check.rc != 0
+
   - name: Restart Nginx
     ansible.builtin.service:
       name: nginx
