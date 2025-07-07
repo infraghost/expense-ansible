@@ -1,8 +1,8 @@
 - name: Backend Configuration
-  hosts: localhost
+  hosts: backend
   become: yes
   vars:
-    login_host: db.itzhsk.xyz
+    login_host: 54.82.230.67
     login_password: ExpenseApp@1
   tasks:
   - name: Disable Default NodeJS
